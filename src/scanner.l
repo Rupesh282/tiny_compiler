@@ -110,7 +110,7 @@ const char* tokenType[13] = {
     "COMMENT",   
 };
 
-FILE *yyin, *output;
+FILE *yyin;
 
 int main(int argc, char** argv) {
     if(argc != 2) {
@@ -119,13 +119,12 @@ int main(int argc, char** argv) {
     }
 
     yyin = fopen(argv[1], "r");
-    output = fopen("src/output.txt", "w");
 
     int ntoken, vtoken;
     ntoken = yylex();
     while(ntoken) {
         if(ntoken > 3 && ntoken != 10)
-            fprintf(output, "Token Type: %s\nValue: %s\n", tokenType[ntoken], yytext);
+            printf("Token Type: %s\nValue: %s\n", tokenType[ntoken], yytext);
         ntoken = yylex();
     }
     fclose(yyin);
