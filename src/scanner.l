@@ -8,21 +8,21 @@ IDENTIFIER          [a-zA-Z][a-zA-Z0-9]*
 INTLITERAL          [0-9]+
 STRINGLITERAL       \"(\\.|[^"\\])*\"
 FLOATLITERAL        [0-9]*\.[0-9]+
-ASSIGNMENT          ":="
-ADD                 "+"
-SUB                 "-"
-MULT                "*"
-DIV                 "/"
-EQUAL               "="
-NEQUAL              "!="
-LESSTHAN            "<"
-GREATERTHAN         ">"
-BRACKET_OPEN        "("
-BRACKET_CLOSE       ")"
-SEMICOLON           ";"
-COLON               ","
-LESSTHANEQ          "<="
-GREATERTHANEQ       ">="
+ASSIGNMENT          :=
+ADD                 \+
+SUB                 -
+MULT                \*
+DIV                 \/
+EQUAL               = 
+NEQUAL              != 
+LESSTHAN            < 
+GREATERTHAN         >
+BRACKET_OPEN        \(
+BRACKET_CLOSE       \)
+SEMICOLON           ;
+COLON               ,
+LESSTHANEQ          <=
+GREATERTHANEQ       >=
 PROGRAM             PROGRAM
 BEGIN               BEGIN
 END                 END
@@ -95,3 +95,41 @@ OTHER               .
 int yywrap(void) {
     return 1;
 }
+
+const char* tokenType[13] = {
+    "OTHER",     
+    "NEWLINE",   
+    "SPACE",     
+    "TAB",       
+    "IDENTIFIER",
+    "INTLITERAL",
+    "FLOATLITERAL",
+    "STRINGLITERAL",
+    "KEYWORD",   
+    "OPERATOR",  
+    "COMMENT",   
+};
+
+FILE *yyin, *output;
+
+int main(int argc, char** argv) {
+    if(argc != 2) {
+        printf("[-] Expected two arguments : $ ./compiler {filename}");
+        return 0;
+    }
+
+    yyin = fopen(argv[1], "r");
+    output = fopen("src/output.txt", "w");
+
+    int ntoken, vtoken;
+    ntoken = yylex();
+    while(ntoken) {
+        if(ntoken > 3 && ntoken != 10)
+            fprintf(output, "Token Type: %s\nValue: %s\n", tokenType[ntoken], yytext);
+        ntoken = yylex();
+    }
+    fclose(yyin);
+    return 0;
+}
+
+

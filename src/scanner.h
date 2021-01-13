@@ -10,4 +10,3 @@
 #define KEYWORD         8
 #define OPERATOR        9
 #define COMMENT         10
-
