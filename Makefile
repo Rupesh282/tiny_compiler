@@ -1,15 +1,16 @@
-SRC = src
-
 # makes final target named compiler
-compiler: flexFile 
-	gcc -o $(SRC)/compiler $(SRC)/lex.yy.c 
+compiler: flexFile.c
+	gcc -o $@ $^
 
-flexFile: $(SRC)/scanner.l
-	flex -o $(SRC)/lex.yy.c $(SRC)/scanner.l  
+flexFile.c: scanner.l
+	flex -o $@ $^  
 
 dev:
 	@echo Rupesh Kalantre
 	@echo 180010029@iitdh.ac.in
 
 clean:
-	rm $(SRC)/compiler $(SRC)/lex.yy.c 
+	rm flexFile.c
+
+re:
+	rm compiler
