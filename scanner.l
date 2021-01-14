@@ -1,6 +1,5 @@
 %{
     #include <stdio.h>
-    #include "scanner.h"
 
     #define OTHER           0 
     #define NEWLINE         1
