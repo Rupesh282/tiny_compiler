@@ -10,7 +10,7 @@ dev:
 	@echo 180010029@iitdh.ac.in
 
 clean:
-	rm flexFile.c
+	rm -f flexFile.c
 
 re:
 	rm compiler
