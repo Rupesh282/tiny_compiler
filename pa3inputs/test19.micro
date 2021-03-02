@@ -1,7 +1,7 @@
 PROGRAM nested
 BEGIN
 
-    STRING dummy := "abcde";  --This is dummy to satisfy the grammar
+    STRING dummy := "abcde";  #This is dummy to satisfy the grammar
 
     INT i, j, k;
      
