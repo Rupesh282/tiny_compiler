@@ -2,7 +2,7 @@
 compiler : scanner.l microParser.y symboltable.cc
 	bison -d microParser.y
 	flex scanner.l
-	g++ microParser.tab.c lex.yy.c -o compiler
+	g++ -std=c++11 microParser.tab.c lex.yy.c -o compiler
 
 dev:
 	@echo Rupesh Kalantre
