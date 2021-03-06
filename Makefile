@@ -15,13 +15,13 @@ clean:
 	rm -f microParser.tab.h
 
 tag:
-	git tag -a pa3submission -m "submission for PA3"
+	git tag -a pa4submission -m "submission for PA4"
 
 pushtag:
 	git push --tags
 
 ftag:
-	git tag -a -f pa3submission -m "submission for PA3"
+	git tag -a -f pa4submission -m "submission for PA4"
 
 fpushtag:
 	git push -f --tags
