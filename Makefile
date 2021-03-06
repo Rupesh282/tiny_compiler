@@ -1,8 +1,8 @@
 # makes final target named compiler
-compiler : scanner.l microParser.y
+compiler : scanner.l microParser.y symboltable.cc
 	bison -d microParser.y
 	flex scanner.l
-	gcc microParser.tab.c lex.yy.c -o compiler
+	g++ -std=c++11 microParser.tab.c lex.yy.c -o compiler
 
 dev:
 	@echo Rupesh Kalantre
@@ -13,3 +13,15 @@ clean:
 	rm -f compiler
 	rm -f microParser.tab.c
 	rm -f microParser.tab.h
+
+tag:
+	git tag -a pa3submission -m "submission for PA3"
+
+pushtag:
+	git push --tags
+
+ftag:
+	git tag -a -f pa3submission -m "submission for PA3"
+
+fpushtag:
+	git push -f --tags

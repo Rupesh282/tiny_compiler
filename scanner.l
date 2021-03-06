@@ -1,5 +1,7 @@
 %{
     #include "microParser.tab.h"
+    #include <string>
+    extern "C" int yylex();
 %}
 
 
@@ -63,9 +65,9 @@ OTHER               .
 {STRING}             return STRING;
 {FLOAT}              return FLOAT;
 
-{IDENTIFIER}        return IDENTIFIER;
-{INTLITERAL}        return INTLITERAL;
-{FLOATLITERAL}      return FLOATLITERAL;
+{IDENTIFIER}        { yylval.strval = new std::string(yytext); return IDENTIFIER; };
+{INTLITERAL}        { yylval.intval = atoi(yytext); return INTLITERAL; };
+{FLOATLITERAL}      { yylval.floatval = atof(yytext); return FLOATLITERAL; };
 
 {ASSIGNMENT}        return ASSIGNMENT;
 {ADD}               return ADD;          
@@ -83,7 +85,7 @@ OTHER               .
 {LESSTHANEQ}        return LESSTHANEQ;   
 {GREATERTHANEQ}     return GREATERTHANEQ;
 
-{STRINGLITERAL}     return STRINGLITERAL;
+{STRINGLITERAL}     { yylval.strval = new std::string(yytext); return STRINGLITERAL; }; 
 
 {COMMENT}           {};
 {NEWLINE}           {};
