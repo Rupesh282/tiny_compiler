@@ -1,8 +1,8 @@
 # makes final target named compiler
-compiler : scanner.l microParser.y symboltable.cc
+compiler : scanner.l microParser.y symboltable.hpp ast.hpp codeStruct.hpp
 	bison -d microParser.y
 	flex scanner.l
-	g++ -std=c++11 microParser.tab.c lex.yy.c -o compiler
+	g++ -std=c++17 microParser.tab.c lex.yy.c -o compiler
 
 dev:
 	@echo Rupesh Kalantre
@@ -25,3 +25,7 @@ ftag:
 
 fpushtag:
 	git push -f --tags
+
+
+tiny:
+	g++ -o tiny tinyNew.c
