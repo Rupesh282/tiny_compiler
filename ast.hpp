@@ -7,13 +7,12 @@
 #include <map>
 
 
+static std::string id_type;
 class ASTNode {
     public :
         std::string type;
-        inline static std::string testtype;
         ASTNode* left;
         ASTNode* right;
-        ASTNode* middle;
 
         virtual std::string getCode(wholeCode* code) {
             return "this is invalid";
@@ -83,13 +82,13 @@ class ASTNode_ASSIGN: public ASTNode {
 
         ASTNode_ASSIGN(entry* ent) {
             this->ent = ent;
-            ASTNode::testtype = ent->type;
+            id_type = ent->type;
             this->left = new ASTNode_ID(ent);
         }
 
         std::string getCode(wholeCode* code) {
             //STOREI <exprevalue>(right) a(left)
-            std::string OP = (ASTNode::testtype == "INT" ? "STOREI" : "STOREF");
+            std::string OP = (id_type == "INT" ? "STOREI" : "STOREF");
             std::string arg1 = this->right->getCode(code);
             std::string arg2 = this->left->getCode(code);
             code->codelines.push_back(new ERline(code->symbolTable->STstack.top()->scope, OP, arg1, arg2));
@@ -120,8 +119,8 @@ class ASTNode_EXPR : public ASTNode {
         }
 
         std::string getCode(wholeCode* code) {
-            std::string OP = OP_mapping[{ ASTNode::testtype,opertr}];
-            //std::cout << "OP : " << OP << " [ " << this->left->testtype << ", " << opertr << " ] " << "\n";
+            std::string OP = OP_mapping[{ id_type,opertr}];
+            //std::cout << "OP : " << OP << " [ " << this->left->id_type << ", " << opertr << " ] " << "\n";
             std::string arg1 = this->left->getCode(code);
             std::string arg2 = this->right->getCode(code);
             std::string tempVar = code->getTempVar();

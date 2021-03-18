@@ -5,7 +5,7 @@
     #include "symboltable.hpp"
     #include "codeStruct.hpp"
     ST_stack* ST = new ST_stack();
-    wholeCode* WC = new wholeCode(ST);
+    wholeCode* WC = new wholeCode(ST); //codeobject
 %}
 
 %code requires {
