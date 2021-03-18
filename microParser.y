@@ -14,6 +14,7 @@
     #include<vector>
     #include<utility>
     #include "ast.hpp"
+    #include "assembly.hpp"
 }
 
 %token PROGRAM _BEGIN END IDENTIFIER STRINGLITERAL STRING FLOAT FLOATLITERAL INT INTLITERAL VOID FUNCTION READ WRITE RETURN IF FI ELSE FOR ROF ADD SUB MULT DIV EQUAL NEQUAL EXCL LESSTHAN GREATERTHAN LESSTHANEQ GREATERTHANEQ BRACKET_OPEN BRACKET_CLOSE SEMICOLON COLON ASSIGNMENT 
@@ -27,7 +28,7 @@
 }
 
 %type <strval> str id IDENTIFIER STRINGLITERAL 
-%type <strlist> id_list id_tail stmt_list
+%type <strlist> id_list id_tail 
 %type <intval> var_type INT any_type VOID INTLITERAL
 %type <floatval> FLOAT FLOATLITERAL
 %type <astnode> mulop addop primary postfix_expr factor_prefix factor expr_prefix expr compop
@@ -118,27 +119,25 @@ func_decl : FUNCTION any_type id
                 ST->pop_table();
             }
     ;
-func_body : decl stmt_list
+func_body : decl stmt_list 
     ;
 
 // Statement List
 stmt_list : %empty 
-    | stmt stmt_list {
-        $$->push_back($1);
-    }
+    | stmt stmt_list
     ;
-stmt : base_stmt
-    | if_stmt
-    | for_stmt
+stmt : base_stmt 
+    | if_stmt  
+    | for_stmt 
     ;
-base_stmt : assign_stmt
-    | read_stmt
-    | write_stmt
+base_stmt : assign_stmt 
+    | read_stmt  
+    | write_stmt  
     | return_stmt
     ;
 
 //Basic Statements
-assign_stmt : assign_expr SEMICOLON 
+assign_stmt : assign_expr SEMICOLON  
     ;
 assign_expr : id ASSIGNMENT expr {
             ASTNode* node = new ASTNode_ASSIGN(ST->findEntry(*$1));
@@ -245,12 +244,20 @@ if_stmt : IF
         }
         BRACKET_OPEN cond BRACKET_CLOSE decl stmt_list 
         {
+            WC->lb ++;
+            WC->lblist.push_front(WC->lb);
+            WC->codelines.push_back(new ERline(WC->symbolTable->STstack.top()->scope, "JUMP", "LABEL"+std::to_string(WC->lb)));
+            int x = WC->lblist.back();
+            WC->lblist.pop_back();
+            WC->codelines.push_back(new ERline(WC->symbolTable->STstack.top()->scope, "LABEL", "LABEL"+std::to_string(x)));
             ST->pop_table();
         }
-        else_part FI  {
-
+        else_part FI {
+            int x = WC->lblist.front();
+            WC->lblist.pop_front();
+            WC->codelines.push_back(new ERline(WC->symbolTable->STstack.top()->scope, "LABEL", "LABEL"+std::to_string(x)));
         }
-    ;
+        ;
 else_part : %empty 
     | ELSE {
         ST->addTable();
@@ -263,6 +270,8 @@ else_part : %empty
 cond : expr compop expr {
         $2->left = $1;
         $2->right = $3;
+
+        $2->getCode(WC);
      }
     ;
 compop : LESSTHAN { $$ = new ASTNode_COND("<"); }
@@ -298,6 +307,18 @@ int main() {
     yyparse();
     /*printf("Accepted\n");*/
     //ST->printStack();
-    WC->print();
+    /*WC->print();*/
+    /*std::cout << "\n";*/
+    for(symbol_table* table : WC->symbolTable->STvector) {
+        for(auto i : table->symbolTable) {
+            if(i.second.type == "STRING")
+                std::cout << "str " << i.first << " " << i.second.value << "\n";
+            else 
+                std::cout << "var " << i.first << "\n";
+        }
+    }
+    assemblyCode assmCode(WC);
+    assmCode.print();
+    std::cout << "sys halt\n";
     return 0;
 }

@@ -1,5 +1,5 @@
 # makes final target named compiler
-compiler : scanner.l microParser.y symboltable.hpp ast.hpp codeStruct.hpp
+compiler : scanner.l microParser.y symboltable.hpp ast.hpp codeStruct.hpp assembly.hpp
 	bison -d microParser.y
 	flex scanner.l
 	g++ -std=c++17 microParser.tab.c lex.yy.c -o compiler
@@ -13,6 +13,7 @@ clean:
 	rm -f compiler
 	rm -f microParser.tab.c
 	rm -f microParser.tab.h
+	rm -f tiny
 
 tag:
 	git tag -a pa4submission -m "submission for PA4"

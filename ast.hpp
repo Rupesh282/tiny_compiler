@@ -107,7 +107,7 @@ class ASTNode_EXPR : public ASTNode {
             {{"INT", "+"}, "ADDI"},
             {{"FLOAT", "+"}, "ADDF"},
             {{"INT", "-"}, "SUBI"},
-            {{"FLOAt", "-"}, "SUBF"},
+            {{"FLOAT", "-"}, "SUBF"},
             {{"INT", "*"}, "MULI"},
             {{"FLOAT", "*"}, "MULF"},
             {{"INT", "/"}, "DIVI"},
@@ -140,11 +140,12 @@ class ASTNode_COND : public ASTNode {
 
         std::string getCode(wholeCode* code) {
             std::string OP, label;
-            int labelcnt = code->getLabelcnt();
             std::string arg1 = this->left->getCode(code);
             std::string arg2 = this->right->getCode(code);
 
-            label = "LABEL" + std::to_string(labelcnt);
+            code->lb ++;
+            code->lblist.push_back(code->lb);
+            label = "LABEL" + std::to_string(code->lb);
 
             if(comp == ">") {
                 OP = "LE";
@@ -162,25 +163,6 @@ class ASTNode_COND : public ASTNode {
 
             code->codelines.push_back(new ERline(code->symbolTable->STstack.top()->scope, OP, arg1, arg2, label));
 
-            return label;
-        }
-};
-
-class ASTNode_BRANCH : public ASTNode {
-    public :
-        std::string type = "BRANCH";
-        std::string label1, label2;
-
-        //child distr : 
-        //left : cond
-        //right : else body
-        //middle : if body
-
-        ASTNode_BRANCH() {
-            //set label values
-        }
-
-        std::string getCode(wholeCode* code) {
-            std::string curlabel = this->left->getCode(code);
+            return "";
         }
 };

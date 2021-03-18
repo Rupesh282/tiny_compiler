@@ -11,11 +11,13 @@ BEGIN
 	
 		IF (i<5)
 			num := num +a;
-            IF (i >= 10)
-                num := num + 69;
-            FI
+			IF ( i < 3)
+				num := num + a;
+			FI
 		ELSE
-			num := num -a;
+			IF (i >= 5)
+				num := num - a;
+			FI
 		FI
 
 		WRITE(num);

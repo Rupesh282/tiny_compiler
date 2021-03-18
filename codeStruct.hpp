@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "symboltable.hpp"
+#include <deque>
 
 
 class ERline {
@@ -50,6 +51,8 @@ class wholeCode {
         std::vector<ERline*> codelines;
         ST_stack* symbolTable;
         int T = 1; // this is value for temporary register
+        int lb = 0;
+        std::deque<int> lblist;
  
         wholeCode(ST_stack* symbolTable) {
             this->symbolTable = symbolTable;
@@ -58,11 +61,6 @@ class wholeCode {
         std::string getTempVar() {
             return "$T" + std::to_string(T++);
         }
-
-        int getLabelcnt() {
-            return symbolTable->curLabelNo();
-        }
-
 
         void ERwrite(std::string type, std::string name) {
             if(type == "INT") {

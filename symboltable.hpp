@@ -161,6 +161,14 @@ class ST_stack {
             return new entry();
         }
 
+        entry* findEntry(std::string name, std::string scope) {
+            for(auto table : STvector) {
+                if(table->scope == scope)
+                    return table->findEntry(name);
+            }
+            return new entry();
+        }
+
         void printStack() {
             if(error != "") {
                 std::cout << "DECLARATION ERROR " + error << std::endl;
