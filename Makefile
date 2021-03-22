@@ -16,13 +16,13 @@ clean:
 	rm -f tiny
 
 tag:
-	git tag -a pa4submission -m "submission for PA4"
+	git tag -a pa5submission -m "submission for PA5"
 
 pushtag:
 	git push --tags
 
 ftag:
-	git tag -a -f pa4submission -m "submission for PA4"
+	git tag -a -f pa5submission -m "submission for PA5"
 
 fpushtag:
 	git push -f --tags
