@@ -26,6 +26,11 @@ class assemblyCode {
             return tempToReg[temp];
         }
 
+        std::string getRegForID(std::string ID) {
+            tempToReg[ID] = getNewReg();
+            return tempToReg[ID];
+        }
+
         bool isTemp(std::string temp) {
             return temp[0] == '$';
         }
@@ -72,8 +77,15 @@ class assemblyCode {
                     // handle jump statements
                     for(std::string i : cmps) {
                         if(i == com) {
-                        // TODO :// generate correct comp<i/r>
-                            assembly.push_back(ERline(line->scope, "cmpi", getWhatever(line->arg1), getWhatever(line->arg2)));
+                            // TODO :// generate correct comp<i/r>
+                            if(line->arg2[0] != '$') {
+                                // no temporary
+                                std::string temp = getRegForID(line->arg2);
+                                assembly.push_back(ERline(line->scope, "move", getWhatever(line->arg2), temp));
+                                assembly.push_back(ERline(line->scope, "cmpi", getWhatever(line->arg1), temp));
+                            }
+                            else
+                                assembly.push_back(ERline(line->scope, "cmpi", getWhatever(line->arg1), getWhatever(line->arg2)));
                             //assembly.back().print();
                             assembly.push_back(ERline(line->scope, "j" + getLower(com), getWhatever(line->arg3)));
                             //assembly.back().print();

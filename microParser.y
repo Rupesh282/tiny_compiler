@@ -291,8 +291,21 @@ for_stmt : FOR
     {
         ST->addTable();
     }
-    BRACKET_OPEN init_stmt SEMICOLON cond SEMICOLON incr_stmt BRACKET_CLOSE decl stmt_list ROF
+    BRACKET_OPEN init_stmt SEMICOLON {
+        WC->lb ++;
+        WC->lblist.push_front(WC->lb);
+        WC->codelines.push_back(new ERline(WC->symbolTable->STstack.top()->scope, "LABEL", "LABEL"+std::to_string(WC->lb)));
+    }
+    cond SEMICOLON incr_stmt BRACKET_CLOSE decl stmt_list ROF
     {
+        int x = WC->lblist.front();
+        WC->lblist.pop_front();
+        WC->codelines.push_back(new ERline(WC->symbolTable->STstack.top()->scope, "JUMP", "LABEL"+std::to_string(x)));
+
+        x = WC->lblist.back();
+        WC->lblist.pop_back();
+        WC->codelines.push_back(new ERline(WC->symbolTable->STstack.top()->scope, "LABEL", "LABEL"+std::to_string(x)));
+        
         ST->pop_table();
     }
     ;
@@ -307,8 +320,8 @@ int main() {
     yyparse();
     /*printf("Accepted\n");*/
     //ST->printStack();
-    /*WC->print();*/
-    /*std::cout << "\n";*/
+    WC->print();
+    std::cout << "\n";
     for(symbol_table* table : WC->symbolTable->STvector) {
         for(auto i : table->symbolTable) {
             if(i.second.type == "STRING")

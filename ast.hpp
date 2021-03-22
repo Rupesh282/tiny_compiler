@@ -140,6 +140,7 @@ class ASTNode_COND : public ASTNode {
         std::string getCode(wholeCode* code) {
             std::string OP, label;
             std::string arg1 = this->left->getCode(code);
+            //arg2 can be ID or temporary
             std::string arg2 = this->right->getCode(code);
 
             code->lb ++;
