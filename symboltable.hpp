@@ -1,3 +1,4 @@
+# pragma once
 #include <iostream>
 #include <algorithm>
 #include <stack>
@@ -58,6 +59,14 @@ class symbol_table {
                 return 1;
             }
             return 0;
+        }
+
+        entry* findEntry(std::string name) {
+            if(symbolTable.find(name) != symbolTable.end()) {
+                entry* ent = &symbolTable[name];
+                return ent;
+            }
+            return new entry();
         }
 
         bool add(std::string name, std::string type) {
@@ -139,6 +148,25 @@ class ST_stack {
         void pop_table() {
             assert(STstack.size() > 0);
             STstack.pop();
+        }
+
+        entry* findEntry(std::string name) {
+            std::stack<symbol_table*> tempStack = STstack;    
+            while(tempStack.size()) {
+                if(tempStack.top()->isUsed(name))
+                    return tempStack.top()->findEntry(name);
+                tempStack.pop();
+            }
+            //edher nahi ayega
+            return new entry();
+        }
+
+        entry* findEntry(std::string name, std::string scope) {
+            for(auto table : STvector) {
+                if(table->scope == scope)
+                    return table->findEntry(name);
+            }
+            return new entry();
         }
 
         void printStack() {
