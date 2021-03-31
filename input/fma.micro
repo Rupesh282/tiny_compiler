@@ -23,7 +23,7 @@ BEGIN
 		RETURN result;
 	END
 	
-	FUNCTION INT main ()
+	FUNCTION FLOAT main ()
 	BEGIN
 		FLOAT a,b,c;
 		FLOAT addresult,multiplyresult;
