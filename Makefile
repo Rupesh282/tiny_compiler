@@ -14,19 +14,23 @@ clean:
 	rm -f microParser.tab.c
 	rm -f microParser.tab.h
 	rm -f tiny
+	rm -f tinyold
 
 tag:
-	git tag -a pa5submission -m "submission for PA5"
+	git tag -a pa6submission -m "submission for PA6"
 
 pushtag:
 	git push --tags
 
 ftag:
-	git tag -a -f pa5submission -m "submission for PA5"
+	git tag -a -f pa6submission -m "submission for PA6"
 
 fpushtag:
 	git push -f --tags
 
 
 tiny:
-	g++ -o tiny tinyNew.c
+	g++ -o tiny tiny.cc
+
+tinyold:
+	g++ -o tinyold tinyold.cc
