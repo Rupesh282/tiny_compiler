@@ -97,6 +97,47 @@ class ASTNode_ASSIGN: public ASTNode {
         }
 };
 
+class ASTNode_CALLEXPR: public ASTNode {
+    public: 
+        std::string type = "CALLEXPR";
+        std::string funct_name = "";
+        std::vector<ASTNode*>* parameter_list;
+
+        ASTNode_CALLEXPR(std::string funct_name, std::vector<ASTNode*>* plist) {
+            this->funct_name = funct_name;
+            this->parameter_list = plist;
+
+        }
+
+        std::string getCode(wholeCode* code) {
+            std::string comm = "PUSH";
+
+            code->codelines.push_back(new ERline(code->symbolTable->STstack.top()->scope, comm, ""));
+
+            for(auto& node : *parameter_list) {
+                std::string para = node->getCode(code);
+                code->codelines.push_back(new ERline(code->symbolTable->STstack.top()->scope, comm, para));
+            }
+
+            code->codelines.push_back(new ERline(code->symbolTable->STstack.top()->scope, comm + "R", ""));
+
+
+            code->codelines.push_back(new ERline(code->symbolTable->STstack.top()->scope, "JSR", funct_name));
+
+            code->codelines.push_back(new ERline(code->symbolTable->STstack.top()->scope, "POPR", ""));
+            for(int i=0;i<(int)(*parameter_list).size();++i)
+                code->codelines.push_back(new ERline(code->symbolTable->STstack.top()->scope, "POP", ""));
+
+            std::string temp = code->getTempVar();
+
+            code->codelines.push_back(new ERline(code->symbolTable->STstack.top()->scope, "POP", temp)); 
+
+
+            return temp;
+        }
+};
+
+
 
 class ASTNode_EXPR : public ASTNode {
     public: 
@@ -140,6 +181,7 @@ class ASTNode_COND : public ASTNode {
         std::string getCode(wholeCode* code) {
             std::string OP, label;
             std::string arg1 = this->left->getCode(code);
+            //arg2 can be ID or temporary
             std::string arg2 = this->right->getCode(code);
 
             code->lb ++;

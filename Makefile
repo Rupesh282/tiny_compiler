@@ -2,7 +2,7 @@
 compiler : scanner.l microParser.y symboltable.hpp ast.hpp codeStruct.hpp assembly.hpp
 	bison -d microParser.y
 	flex scanner.l
-	g++ -std=c++11 microParser.tab.c lex.yy.c -o compiler
+	g++ -std=c++11 -g microParser.tab.c lex.yy.c -o  compiler 
 
 dev:
 	@echo Rupesh Kalantre
@@ -16,13 +16,13 @@ clean:
 	rm -f tiny
 
 tag:
-	git tag -a pa4submission -m "submission for PA4"
+	git tag -a pa5submission -m "submission for PA5"
 
 pushtag:
 	git push --tags
 
 ftag:
-	git tag -a -f pa4submission -m "submission for PA4"
+	git tag -a -f pa5submission -m "submission for PA5"
 
 fpushtag:
 	git push -f --tags

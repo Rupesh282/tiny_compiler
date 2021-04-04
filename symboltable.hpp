@@ -117,7 +117,7 @@ class ST_stack {
         }
 
         void addTable() {
-            std::string name = "BLOCK " + std::to_string(block_cnt);
+            std::string name = "$BLOCK " + std::to_string(block_cnt);
             symbol_table* table = new symbol_table(name);
             STstack.push(table);
             STvector.push_back(table);
