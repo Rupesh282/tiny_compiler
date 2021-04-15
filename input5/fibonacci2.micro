@@ -12,7 +12,7 @@ BEGIN
 		IF (n > 2)
 			ret1 := F(n-1);
 			ret2 := F(n-2);
-			RETURN ret1+ret2;
+			RETURN ret1 + ret2;
 		ELSE
             IF (n = 0)   #This is a comment
                 RETURN 0;

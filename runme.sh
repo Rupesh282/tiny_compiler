@@ -1,1 +1,1 @@
-./compiler < $1 > $2
+./compiler $1 > $2
