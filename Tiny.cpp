@@ -22,10 +22,10 @@ namespace std{
 		{
 			if (IR_vector[i]->get_op_type() == "STOREI" ||
 				IR_vector[i]->get_op_type() == "STOREF"){
-					if((IR_vector[i]->get_result()).find('!T') == std::string::npos){
+					if((IR_vector[i]->get_result()).find("!T") == std::string::npos){
 						if (var_dict.find(IR_vector[i]->get_result()) != var_dict.end()){
 							//creating reg_dict
-							if((IR_vector[i]->get_op1()).find('!T') != std::string::npos){
+							if((IR_vector[i]->get_op1()).find("!T") != std::string::npos){
 								reg_dict[IR_vector[i]->get_op1()] = IR_vector[i]->get_result();
 							}
 							//cout << IR_vector[i]->get_op1() << " : " << reg_dict[IR_vector[i]->get_op1()] << endl;
@@ -34,7 +34,7 @@ namespace std{
 		 				   //creating var_dict
 							//   "r" + std::to_string(static_cast<long long>(regcnt++));
 						   var_dict[IR_vector[i]->get_result()] = IR_vector[i]->get_result();
-						   if((IR_vector[i]->get_op1()).find('!T') != std::string::npos){
+						   if((IR_vector[i]->get_op1()).find("!T") != std::string::npos){
 						   	   reg_dict[IR_vector[i]->get_op1()] = IR_vector[i]->get_result();
 						   }
 						   //cout << IR_vector[i]->get_op1() << " : " << reg_dict[IR_vector[i]->get_op1()] << endl;
@@ -44,7 +44,7 @@ namespace std{
 				}
 			else if (IR_vector[i]->get_op_type() == "READI" ||
 				IR_vector[i]->get_op_type() == "READF") {
-					if((IR_vector[i]->get_result()).find('!T') == std::string::npos){
+					if((IR_vector[i]->get_result()).find("!T") == std::string::npos){
 						if (var_dict.find(IR_vector[i]->get_result()) == var_dict.end()){
 							//var_dict[IR_vector[i]->get_result()] =
 							//   "r" + std::to_string(static_cast<long long>(regcnt++));

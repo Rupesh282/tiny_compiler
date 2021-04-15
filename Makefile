@@ -1,7 +1,7 @@
 compiler:
 	bison -d -t -o parser.cpp parser.yy
 	flex scanner.ll
-	g++ -w -std=c++11 -o compiler main.cpp lex.yy.c parser.cpp Scope.cpp Symbol.cpp ASTNode.cpp Tiny.cpp 
+	g++ -std=c++11 -o compiler main.cpp lex.yy.c parser.cpp Scope.cpp Symbol.cpp ASTNode.cpp Tiny.cpp 
 
 clean:
 	@rm -f *.o parser.cpp lex.yy.c compiler *.out parser.hpp
