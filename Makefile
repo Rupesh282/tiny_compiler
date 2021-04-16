@@ -4,7 +4,7 @@ compiler:
 	g++ -std=c++11 -o compiler main.cpp lex.yy.c parser.cpp Scope.cpp Symbol.cpp ASTNode.cpp Tiny.cpp 
 
 clean:
-	@rm -f *.o parser.cpp lex.yy.c compiler *.out parser.hpp
+	@rm -f parser.cpp lex.yy.c compiler parser.hpp
 
 dev:
 	@echo Rupesh Kalantre
