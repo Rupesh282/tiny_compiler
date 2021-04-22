@@ -1,22 +1,29 @@
+/*
+ * Acknowledgement: Qifan Chang and Zixian Lai 
+ * acknowledgement for documentation : Abhishek Raj
+ **/
 %{
 #include <string>
 #include <vector>
 #include "main.h"
 #include "parser.hpp"
 #include <stdio.h>
-#include<iostream>
+#include <iostream>
 
 using namespace std;
 %}
-
+/* regex for single digit */
 DIGIT	[0-9]
+/* regex for single english alphabet */
 LETTER	[A-Za-z]
+/* regex for  a string with first character as an english letter / valid variable name*/
 ID		{LETTER}({LETTER}|{DIGIT})*
+/* regex for comment */
 COMMENT             #.*\n
 
 %option noyywrap
 %option yylineno
-
+/* below lines return relevent token values to parser */
 %%
 PROGRAM	{return TOKEN_PROGRAM;}
 BEGIN	{return TOKEN_BEGIN;}
@@ -35,11 +42,11 @@ VOID	{return TOKEN_VOID;}
 STRING 	{yylval.str = new string(yytext); return TOKEN_STRING;}
 FLOAT {yylval.str = new string(yytext); return TOKEN_FLOAT;}
 
-{ID}					{yylval.str = new string(yytext); return TOKEN_IDENTIFIER;}
+{ID}					{/* store id value as string in yylval */  yylval.str = new string(yytext); return TOKEN_IDENTIFIER;}
 
-{DIGIT}+				{yylval.str = new string(yytext); return TOKEN_INTLITERAL;}
+{DIGIT}+				{/* store int value as string in yylval */  yylval.str = new string(yytext); return TOKEN_INTLITERAL;}
 
-{DIGIT}*"."{DIGIT}+		{yylval.str = new string(yytext); return TOKEN_FLOATLITERAL;}
+{DIGIT}*"."{DIGIT}+		{/* store float value as string in yylval */  yylval.str = new string(yytext); return TOKEN_FLOATLITERAL;}
 {COMMENT}               {};
 
 ":="	{return TOKEN_OP_NE;}
@@ -58,11 +65,8 @@ FLOAT {yylval.str = new string(yytext); return TOKEN_FLOAT;}
 "<="	{return TOKEN_OP_LE;}
 ">=" {return TOKEN_OP_GE;}
 
-\"([^\"\n]|\"\")*\"			{yylval.str = new string(yytext); return TOKEN_STRINGLITERAL;}
-"--".*\n			{/* deleted */}
-[ \t\n\r]+			{/* deleted */}
-
-
-
+\"([^\"\n]|\"\")*\"			{/* store string value as string in yylval */  yylval.str = new string(yytext); return TOKEN_STRINGLITERAL;}
+"--".*\n			{/* comment */}
+[ \t\n\r]+			{/* space / tab / new line */}
 
 %%

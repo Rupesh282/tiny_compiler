@@ -1,6 +1,7 @@
 /*
-	The Scope class
-*/
+ * Acknowledgement: Qifan Chang and Zixian Lai 
+ * acknowledgement for documentation : Abhishek Raj
+ **/
 #ifndef SCOPE_H
 #define SCOPE_H
 #include <string>
@@ -12,24 +13,17 @@
 
 
 namespace std{
-	class Scope
-	{
-	private:
-		string name;
-	 	//std::map<Symbol*, int> ScopeTab;
-	 	std::map< string, Symbol*> ScopeTab;
-	 	//std::map< string* , std::pair <Symbol*, int>> ScopeTab;
-	 	std::vector<std::string> err_checker;
-	public:
-		Scope(string name_v);
-		virtual ~Scope();
-		string get_name();
-		//std::map<Symbol*, int> get_tab();
-		std::map< string, Symbol*> get_tab();
-		//std::map<string* , std::pair <Symbol*, int>> get_tab();
-		void insert_record(string ,Symbol*);
-		//void insert_record(string* ,Symbol*, int);
-
+	class Scope {
+		private:
+			string name;							// name of scope
+			std::map< string, Symbol*> ScopeTab;	// mapping from var_name to symbol object in current scope
+			std::vector<std::string> err_checker; // to check error in declaration
+		public:
+			Scope(string name_v);					// contructor
+			virtual ~Scope();						// destructor
+			string get_name();						// returns name of scope
+			std::map< string, Symbol*> get_tab();	// returns mapping ScopeTab
+			void insert_record(string ,Symbol*);	// inserts a record in ScopeTab
 	};
 }
 #endif

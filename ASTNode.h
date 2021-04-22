@@ -1,6 +1,7 @@
 /*
-	The ASTNode.h
-*/
+ * Acknowledgement: Qifan Chang and Zixian Lai 
+ * acknowledgement for documentation : Abhishek Raj
+ **/
 #ifndef ASTNODE_H
 #define ASTNODE_H
 #include <string>
@@ -11,29 +12,31 @@
 
 namespace std{
 
+	// enum for AST_Node_type
 	enum AST_Node_type
 	{
-		undefinded,
-		operator_value,
-		int_value,
-		float_value,
-		func_value,
-		name_value
+		undefinded,		// 0
+		operator_value, // 1
+		int_value,		// 2
+		float_value,    // 3
+		func_value,		// 4
+		name_value		// 5
 	};
 
 	class ASTNode
 	{
 	private:
-		AST_Node_type type;
-		ASTNode* left_node;
-		ASTNode* right_node;
-		string id_name;
-		string temp_count;
+		AST_Node_type type;		// type of AST_Node
+		ASTNode* left_node;		// left child for current node
+		ASTNode* right_node;	// right child for current node
+		string id_name;			// stores name of node 
+		string temp_count;		// stores temp var count of current node
 
-		int Operation_type;
-		bool int_or_float;//int = true float = false
-		string value;
+		int Operation_type;		// stores operation type of node
+		bool int_or_float;		//int = true float = false
+		string value;			// stores value of node (int / float)
 
+    // description of below methods is present in ASTNode.cpp file
 	public:
 		ASTNode();
 		virtual ~ASTNode();
@@ -57,11 +60,12 @@ namespace std{
 	class IR_code
 	{
 	private:
-		string op_type_code;
-		string op1_code;
-		string op2_code;
-		string result_code;
-		int reg_counter;
+		string op_type_code; // stores op_type
+		string op1_code; // op1
+		string op2_code; // op2
+		string result_code; // dest operand
+		int reg_counter;  // register counter
+    // description of below methods is present in ASTNode.cpp file
 	public:
 		IR_code(string op_type, string op1, string op2, string result, int counter);
 		virtual ~IR_code();
