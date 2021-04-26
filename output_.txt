@@ -1,0 +1,83 @@
+Commit ID tagged for submission: 21d48acc39bc09be25840f0e1d1c3e047a5f4ae6
+Submission graded at: 2021-04-27 00:12:06
+
+Branch cs316pa5 is merged with master.
+Branch cs316pa6 exists.
+[*] make dev
+Rupesh Kalantre
+180010029@iitdh.ac.in
+[*] make clean
+[*] runme file found.
+[*] make compiler
+bison -d -t -o parser.cpp parser.yy
+flex scanner.ll
+g++ -std=c++11 -o compiler main.cpp lex.yy.c parser.cpp Scope.cpp Symbol.cpp ASTNode.cpp Tiny.cpp 
+find: ‘src’: No such file or directory
+Testing the output...
+[*] ./runme.sh factorial2.micro user_op.out
+factorial2.micro
+correct output factorial2.output
+[*] ./runme.sh fibonacci2.micro user_op.out
+fibonacci2.micro
+correct output fibonacci2.output
+[*] ./runme.sh fma.micro user_op.out
+fma.micro
+correct output fma.output
+[*] ./runme.sh step6_hidden1.micro user_op.out
+step6_hidden1.micro
+Passed hidden testcase 1
+[*] ./runme.sh step6_hidden2.micro user_op.out
+step6_hidden2.micro
+Passed hidden testcase 2
+[*] ./runme.sh step6_hidden3.micro user_op.out
+step6_hidden3.micro
+1,4c1,4
+< error on line 319 : illegal operand type
+< error on line 320 : illegal operand type
+< error on line 330 : illegal operand type
+< error on line 331 : illegal operand type
+---
+> Start of tinyOutput
+> Please enter 10 floating point numbers: Average of 10 numbers that you entered is: 47.946
+> Maximum of the numbers is: 99.5102
+> 
+Failing hidden testcase 3 (-2)
+[*] ./runme.sh step6_hidden4.micro user_op.out
+step6_hidden4.micro
+Passed hidden testcase 4
+[*] ./runme.sh test_combination.micro user_op.out
+test_combination.micro
+correct output test_combination.out
+[*] ./runme.sh test_complex.micro user_op.out
+test_complex.micro
+correct output test_complex.out
+[*] ./runme.sh test_expr.micro user_op.out
+test_expr.micro
+correct output test_expr.out
+[*] ./runme.sh test_if.micro user_op.out
+test_if.micro
+correct output test_if.out
+[*] ./runme.sh test_mult.micro user_op.out
+test_mult.micro
+correct output test_mult.out
+Finding comments in:
+['./main.h', './Scope.h', './Scope.cpp', './scanner.ll', './Tiny.h', './Tiny.cpp', './parser.yy', './ASTNode.h', './ASTNode.cpp', './Symbol.h', './Symbol.cpp', './main.cpp']
+./main.h (comments): 6, lines: 17
+./Scope.h (comments): 12, lines: 28
+./Scope.cpp (comments): 12, lines: 31
+./scanner.ll (comments): 15, lines: 72
+./Tiny.h (comments): 8, lines: 26
+./Tiny.cpp (comments): 133, lines: 334
+./parser.yy (comments): 530, lines: 1016
+./ASTNode.h (comments): 26, lines: 75
+./ASTNode.cpp (comments): 38, lines: 87
+./Symbol.h (comments): 17, lines: 27
+./Symbol.cpp (comments): 13, lines: 23
+./main.cpp (comments): 26, lines: 74
+Number of lines of source code: 1810
+Commented lines: 836
+Ratio: 46.187845303867405
+comments in the code are more than 40% (no penalty)
+0
+penalty:2
+grade:21
